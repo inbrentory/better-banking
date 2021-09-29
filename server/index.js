@@ -5,8 +5,8 @@ const app = express();
 const TestModel = require('./model/Test')
 
 
-app.use(express.json()); // this will parser all json from the frontend
-app.use(cors());
+app.use(express.json()); // enable to use JSON type from API
+app.use(cors());         // enable cross origin to cooperate 
 
 mongoose.connect('mongodb+srv://brent:brentPW12@cluster-starter.g5eso.mongodb.net/mern?retryWrites=true&w=majority',{
     useNewUrlParser: true,
@@ -21,6 +21,18 @@ app.use("/allData", (req,res) => {
     }
     );
 })
+
+app.get('/:email', (req, res) => {    
+    if (!req.params.email){
+        return;
+    }
+    let email = req.params.email;
+    TestModel.findOne({email: email})
+        .then(result => {
+            console.log(email);
+            res.send(result);
+        });
+});
 
 app.post('/add', async (req,res) =>{
 
@@ -93,18 +105,6 @@ app.delete('/delete/:id', async (req, res) => {
     res.send('deleted');
 });
 
-app.get('/:email', (req, res) => {    
-    if (!req.params.email){
-        console.log(error);
-        return;
-    }
-    let email = req.params.email;
-    TestModel.findOne({email: email})
-        .then(result => {
-            console.log({email});
-            res.send(result);
-        });
-});
 
 
 
