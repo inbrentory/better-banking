@@ -4,7 +4,6 @@ const cors = require('cors');
 const app = express();
 const TestModel = require('./model/Test')
 
-
 app.use(express.json()); // enable to use JSON type from API
 app.use(cors());         // enable cross origin to cooperate 
 
@@ -21,6 +20,7 @@ app.use("/allData", (req,res) => {
     }
     );
 })
+
 
 app.get('/:email', (req, res) => {    
     if (!req.params.email){
