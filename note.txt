@@ -1,0 +1,32 @@
+Client Directory: frontend
+1. start create react-app
+2. create JS file for our function 
+3. import useState to use later
+4. yarn add axios to communicate w/ backend
+---communicate with backend---
+5. Axios.post('http://localhost:3001/data')
+6. index which show App--with HashRouter to use route
+7. install and import react-router-dom for link and HashRouter
+8. implement Firebase for auth 
+   8.1 create Auth with email-password 
+   8.2 install firebase, react-router
+   8.3 create .env variables 
+9. install cors to connect cross origin front and backend
+
+
+Server Directory: backend
+1. start npm init 
+2. install libraries: express, mongoose 
+3. create index.js: entry point of a server
+4. connect MongoDB Atlas with Mongo Compass
+5. connect MongoDB Atlas with application 
+6. create Schema in Module
+7. install nodemon 
+---communicate with front end---
+8. app.get > to show 
+   app.post> insert to database
+   e.g. app.post("/data", (req,res) => res.status(200).json( "data" ))
+9. add 
+    const name = req.body.name;
+    const amount = req.body.amount;
+   to let the backend know about frontend state.
