@@ -5,7 +5,23 @@ const app = express();
 const TestModel = require('./model/Test')
 
 app.use(express.json()); // enable to use JSON type from API
-app.use(cors());         // enable cross origin to cooperate 
+// app.use(cors());         // enable cross origin to cooperate 
+
+// ** MIDDLEWARE ** //
+const whitelist = ['http://localhost:3000','http://localhost:8080','https://shrouded-journey-38552.heroku.com']
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log("** Origin of request " + origin)
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      console.log("Origin acceptable")
+      callback(null, true)
+    } else {
+      console.log("Origin rejected")
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions))
 
 mongoose.connect('mongodb+srv://brent:brentPW12@cluster-starter.g5eso.mongodb.net/mern?retryWrites=true&w=majority',{
     useNewUrlParser: true,
@@ -106,7 +122,14 @@ app.delete('/delete/:id', async (req, res) => {
 });
 
 
-
+if (process.env.NODE_ENV === 'production') {
+    // Serve any static files
+    app.use(express.static(path.join(__dirname, 'client/build')));
+  // Handle React routing, return all requests to React app
+    app.get('*', function(req, res) {
+      res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    });
+  }
 
 app.listen(3001, () =>{
     console.log('running on 3001')
